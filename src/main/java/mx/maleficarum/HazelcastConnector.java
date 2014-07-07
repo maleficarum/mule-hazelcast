@@ -11,15 +11,13 @@
 package mx.maleficarum;
 
 import org.mule.api.annotations.Connector;
-import org.mule.api.annotations.Connect;
-import org.mule.api.annotations.ValidateConnection;
-import org.mule.api.annotations.ConnectionIdentifier;
-import org.mule.api.annotations.Disconnect;
-import org.mule.api.annotations.display.Password;
-import org.mule.api.annotations.param.ConnectionKey;
-import org.mule.api.ConnectionException;
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Processor;
+
+import com.hazelcast.client.HazelcastClient;
+import com.hazelcast.client.config.ClientConfig;
+import com.hazelcast.core.HazelcastInstance;
+
 
 /**
  * Cloud Connector
@@ -27,84 +25,40 @@ import org.mule.api.annotations.Processor;
  * @author MuleSoft, Inc.
  */
 @Connector(name="hazelcast", schemaVersion="1.0-SNAPSHOT")
-public class HazelcastConnector
-{
-    /**
-     * Configurable
-     */
+public class HazelcastConnector {
+	
+	private ClientConfig config = null;
+	private HazelcastInstance instance = null;
+
+	public HazelcastConnector() {
+ 		config = new ClientConfig();
+	}
+	
     @Configurable
-    private String myProperty;
+    private String clusterAddress;
 
-    /**
-     * Set property
-     *
-     * @param myProperty My property
-     */
-    public void setMyProperty(String myProperty)
-    {
-        this.myProperty = myProperty;
+    public void setClusterAddress(String address) {
+    	this.clusterAddress = address;
+    	if(instance == null) {
+    		config.addAddress("127.0.0.1:5701");
+            instance = HazelcastClient.newHazelcastClient(config);    		
+    	}
     }
 
-    /**
-     * Connect
-     *
-     * @param username A username
-     * @param password A password
-     * @throws ConnectionException
-     */
-    @Connect
-    public void connect(@ConnectionKey String username, @Password String password)
-        throws ConnectionException {
-        /*
-         * CODE FOR ESTABLISHING A CONNECTION GOES HERE
-         */
+    public String getClusterAddress() {
+    	return clusterAddress;
     }
-
-    /**
-     * Disconnect
-     */
-    @Disconnect
-    public void disconnect() {
-        /*
-         * CODE FOR CLOSING A CONNECTION GOES HERE
-         */
-    }
-
-    /**
-     * Are we connected
-     */
-    @ValidateConnection
-    public boolean isConnected() {
-        return true;
-    }
-
-    /**
-     * Connection identifier
-     */
-    @ConnectionIdentifier
-    public String connectionId() {
-        return "001";
-    }
-
-    /**
-     * Custom message processor named my-processor
-     *
-     * {@sample.xml ../../../doc/Hazelcast-connector.xml.sample hazelcast:my-processor}
-     *
-     * @param content Content to be processed
-     * @return Some string
-     */
+    
     @Processor
-    public String myProcessor(String content)
-    {
-        /*
-         * MESSAGE PROCESSOR CODE GOES HERE
-         */
+    public String put(String content) {
 
         return content;
     }
 
-    public String getMyProperty(){
-        return this.myProperty;
+    @Processor
+    public String get(String content) {
+
+        return content;
     }
+
 }
