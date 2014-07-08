@@ -1,0 +1,7 @@
+<!-- BEGIN_INCLUDE(hazelcast:put) -->
+<hazelcast:put objKey-ref="" persistentObject-ref="" />
+<!-- END_INCLUDE(hazelcast:put) -->
+
+<!-- BEGIN_INCLUDE(hazelcast:get) -->
+<hazelcast:get objKey-ref="" />
+<!-- END_INCLUDE(hazelcast:get) -->

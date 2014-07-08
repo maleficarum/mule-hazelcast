@@ -33,7 +33,9 @@ public class HazelcastConnector {
 	public HazelcastConnector() {
  		config = new ClientConfig();
 	}
-	
+/**
+* The cluster addres of hazlcast
+*/	
     @Configurable
     private String clusterAddress;
 
@@ -48,17 +50,28 @@ public class HazelcastConnector {
     public String getClusterAddress() {
     	return clusterAddress;
     }
-    
-    @Processor
-    public String put(String content) {
 
-        return content;
+	/**
+	* Put the given object onto the grid
+	* {@sample.xml ../../../doc/Hazelcast-connector.xml hazelcast:put}
+	* @param objKey The key into the grid
+	* @param persistentObject the object to be saved into the grid
+	* @return the same object
+	*/    
+    @Processor
+    public Object put(Object objKey,Object persistentObject) {
+        return persistentObject;
     }
 
+/**
+* Gett the object with the given id
+	* {@sample.xml ../../../doc/Hazelcast-connector.xml hazelcast:get}
+* @param objKey The obj into the grid
+* @return the found object or null if does not exist into the grid
+*/    
     @Processor
-    public String get(String content) {
-
-        return content;
+    public Object get(Object objKey) {
+        return null;
     }
 
 }

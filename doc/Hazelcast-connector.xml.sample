@@ -1,3 +1,0 @@
-<!-- BEGIN_INCLUDE(hazelcast:my-processor) -->
-    <hazelcast:my-processor content="#[map-payload:content]" />
-<!-- END_INCLUDE(hazelcast:my-processor) -->
