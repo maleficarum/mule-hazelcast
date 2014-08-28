@@ -9,8 +9,7 @@
         http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
         http://www.mulesoft.org/schema/mule/hazelcast http://www.mulesoft.org/schema/mule/hazelcast/1.0-SNAPSHOT/mule-hazelcast.xsd">
 
-    <hazelcast:config myProperty="Some string"
-            username="xxx" password="yyy"/>
+    <hazelcast:config clusterAddress="localhost:6666"/>
 
     <flow name="testFlow">
         <hazelcast:my-processor content="Another string"/>
