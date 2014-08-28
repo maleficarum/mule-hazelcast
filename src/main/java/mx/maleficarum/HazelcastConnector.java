@@ -11,6 +11,7 @@
 package mx.maleficarum;
 
 import org.mule.api.annotations.Connector;
+import java.util.concurrent.ConcurrentMap;
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Processor;
 
@@ -32,6 +33,10 @@ public class HazelcastConnector {
 
 	public HazelcastConnector() {
  		config = new ClientConfig();
+ 		System.out.println("======================================");
+ 		System.out.println("=\tmaleficarum.mx\t");
+ 		System.out.println("======================================");
+ 		
 	}
 /**
 * The cluster addres of hazlcast
@@ -59,7 +64,9 @@ public class HazelcastConnector {
 	* @return the same object
 	*/    
     @Processor
-    public Object put(Object objKey,Object persistentObject) {
+    public Object put(Object objKey, Object persistentObject) {
+    	ConcurrentMap<Object, Object> map = instance.getMap("hMap");
+    	map.put(objKey, persistentObject);    	
         return persistentObject;
     }
 
@@ -71,7 +78,7 @@ public class HazelcastConnector {
 */    
     @Processor
     public Object get(Object objKey) {
-        return null;
+        return instance.getMap("gMap").get(objKey);
     }
 
 }
